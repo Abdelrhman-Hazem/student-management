@@ -61,7 +61,3 @@ Navigate to project directory and run:
     Then Deploy WAR file on Weblogic server. For detailed  
     instructions on how to deploy on Weblogic refer to the
    article [here](https://o7planning.org/11901/deploy-spring-boot-application-on-oracle-weblogic-server)
-
-
-
-
