@@ -1,5 +1,6 @@
-package com.bbyn.studentmanagement.security;
+package com.bbyn.studentmanagement.config;
 
+import com.bbyn.studentmanagement.controller.filter.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

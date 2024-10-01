@@ -7,10 +7,12 @@ import com.bbyn.studentmanagement.model.request.StudentRegisterRequest;
 import com.bbyn.studentmanagement.model.response.AuthResponse;
 import com.bbyn.studentmanagement.model.request.StudentLoginRequest;
 import com.bbyn.studentmanagement.service.StudentService;
-import com.bbyn.studentmanagement.security.JwtUtil;
+import com.bbyn.studentmanagement.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,14 +49,22 @@ public class StudentController {
     }
 
     @PostMapping("/enroll/{courseId}")
-    public ResponseEntity<String> enrollToCourse(@PathVariable Long courseId, @AuthenticationPrincipal String studentId) {
-        studentService.enrollStudentToCourse(courseId, Long.parseLong(studentId));
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public ResponseEntity<String> enrollToCourse(@PathVariable Long courseId, @AuthenticationPrincipal Long studentId) {
+        studentService.enrollStudentToCourse(courseId, studentId);
         return ResponseEntity.ok("Enrolled to course successfully");
     }
 
+    @PostMapping("/withdraw/{courseId}")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public ResponseEntity<String> withdrawToCourse(@PathVariable Long courseId, @AuthenticationPrincipal Long studentId) {
+        studentService.withdrawStudentToCourse(courseId, studentId);
+        return ResponseEntity.ok("Withdrawn from course successfully");
+    }
+
     @GetMapping("/courses")
-    public ResponseEntity<List<CourseDto>> getStudentCourses(@AuthenticationPrincipal String studentId) {
-        List<CourseDto> courses = studentService.getStudentCourses(Long.parseLong(studentId));
+    public ResponseEntity<List<CourseDto>> getStudentCourses(@AuthenticationPrincipal Long studentId) {
+        List<CourseDto> courses = studentService.getStudentCourses(studentId);
         return ResponseEntity.ok(courses);
     }
 }

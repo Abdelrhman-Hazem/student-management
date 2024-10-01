@@ -12,8 +12,8 @@ public class CourseDetailsDto {
     private Long id;
     private String name;
     private String description;
-    private List<StudentDto> students;
-
-    // Constructors, Getters, Setters
+    private int capacity;
+    private List<CourseSessionDto> courseSessions;
+    private List<StudentSimpleDto> students;
 }
 

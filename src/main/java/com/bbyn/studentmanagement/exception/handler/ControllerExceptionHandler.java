@@ -33,6 +33,11 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
+    @ExceptionHandler(StudentAlreadyEnrolledToCourseException.class)
+    public ResponseEntity<String> handleStudentAlreadyEnrolledToCourseException(StudentAlreadyEnrolledToCourseException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     @ExceptionHandler(StudentCredentialsInvalidException.class)
     public ResponseEntity<String> handleStudentCredentialsInvalidException(StudentCredentialsInvalidException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -40,6 +45,11 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(StudentDoesNotExistException.class)
     public ResponseEntity<String> handleStudentDoesNotExistException(StudentDoesNotExistException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(StudentNotEnrolledToCourseException.class)
+    public ResponseEntity<String> handleStudentNotEnrolledToCourseException(StudentNotEnrolledToCourseException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 

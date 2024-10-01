@@ -1,5 +1,6 @@
-package com.bbyn.studentmanagement.security;
+package com.bbyn.studentmanagement.controller.filter;
 
+import com.bbyn.studentmanagement.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (studentId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (jwtUtil.validateToken(jwt)) {
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(studentId, null, null); // Setting studentId as principal
+                        new UsernamePasswordAuthenticationToken(studentId, null, null);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }

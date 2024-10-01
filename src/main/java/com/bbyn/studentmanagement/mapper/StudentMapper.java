@@ -1,6 +1,7 @@
 package com.bbyn.studentmanagement.mapper;
 
 import com.bbyn.studentmanagement.model.dto.StudentDto;
+import com.bbyn.studentmanagement.model.dto.StudentSimpleDto;
 import com.bbyn.studentmanagement.model.entity.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,5 +24,8 @@ public abstract class StudentMapper {
     protected String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
+
+    public abstract StudentSimpleDto studentToStudentSimpleDto(Student student);
+
 }
 

@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.bbyn</groupId>
 	<artifactId>student-management</artifactId>
@@ -27,11 +27,6 @@
 					<groupId>jakarta.servlet</groupId>
 					<artifactId>jakarta.servlet-api</artifactId>
 				</exclusion>
-<!--				<exclusion>-->
-<!--					<groupId>jakarta.persistence</groupId>-->
-<!--					<artifactId>jakarta.persistence-api</artifactId>-->
-<!--				</exclusion>-->
-				<!-- Add more exclusions if needed -->
 			</exclusions>
 		</dependency>
 
@@ -50,6 +45,16 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
@@ -61,9 +66,14 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version> <!-- Use the latest compatible version for your project -->
+			<version>0.9.1</version>
 		</dependency>
 
 		<dependency>
@@ -79,6 +89,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>19.8.0.0</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.5.3.Final</version>
@@ -89,24 +106,18 @@
 			<version>1.5.3.Final</version>
 			<scope>provided</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>javax.servlet</groupId>-->
-<!--			<artifactId>javax.servlet-api</artifactId>-->
-<!--			<version>4.0.1</version> &lt;!&ndash; Java EE 8 compatible &ndash;&gt;-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
-
-<!--		<dependency>-->
-<!--			<groupId>javax.persistence</groupId>-->
-<!--			<artifactId>javax.persistence-api</artifactId>-->
-<!--			<version>2.2</version> &lt;!&ndash; Java EE 8 compatible &ndash;&gt;-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext-core</artifactId>
+			<version>8.0.1</version>
+			<type>pom</type>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.3</version> <!-- Ensure version compatibility -->
-			<scope>provided</scope> <!-- Mark as provided so the server provides it -->
+			<version>2.3.3</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -129,7 +140,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-<!--				<version>3.3.2</version>-->
 				<configuration>
 
 					<webResources>
@@ -163,7 +173,6 @@
 			</plugin>
 
 		</plugins>
-
 
 	</build>
 

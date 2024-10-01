@@ -10,9 +10,13 @@ import com.bbyn.studentmanagement.model.entity.Student;
 import com.bbyn.studentmanagement.repository.CourseRepository;
 import com.bbyn.studentmanagement.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,25 +44,57 @@ public class StudentService {
         Student student = studentRepository.findByUsername(studentDto.getUsername());
         if (student != null && passwordEncoder.matches(studentDto.getPassword(), student.getPassword())) {
             return studentMapper.studentToStudentDto(student);
-        }else {
+        } else {
             throw new StudentCredentialsInvalidException("No Such Student Registered");
         }
     }
 
+    @CacheEvict(value = "studentCourse", key = "#studentId")
     public void enrollStudentToCourse(Long courseId, Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentDoesNotExistException("No Student Registered with Specified Id"));
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseDoesNotExistException("No Course Created with Specified Id"));
 
+        if (course.getStudents().stream()
+                .anyMatch(courseStudent -> courseStudent.getId() == studentId)) {
+            throw new StudentAlreadyEnrolledToCourseException("Already Enrolled in course: " + course.getName());
+        }
+
         if (course.getStudents().size() >= course.getCapacity()) {
             throw new CourseAtCapacityException("Course capacity reached");
         }
 
         course.getStudents().add(student);
+        student.getCourses().add(course);
         courseRepository.save(course);
     }
 
+    @CacheEvict(value = "studentCourse", key = "#studentId")
+    public void withdrawStudentToCourse(Long courseId, Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new StudentDoesNotExistException("No Student Registered with Specified Id"));
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new CourseDoesNotExistException("No Course Created with Specified Id"));
+
+        if (CollectionUtils.isEmpty(course.getStudents())) {
+            throw new StudentNotEnrolledToCourseException("Not Enrolled in course: " + course.getName());
+        }
+
+        boolean studentRemoved = course.getStudents().removeIf(
+                courseStudent -> courseStudent.getId() == studentId
+        );
+        boolean courseRemoved = student.getCourses().removeIf(
+                studentCourse -> studentCourse.getId() == courseId
+        );
+        if(!studentRemoved || !courseRemoved){
+            throw new StudentNotEnrolledToCourseException("Not Enrolled in course: " + course.getName());
+        }
+
+        courseRepository.save(course);
+    }
+
+    @Cacheable(value = "studentCourse", key = "#studentId", unless = "#result == null")
     public List<CourseDto> getStudentCourses(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentDoesNotExistException("No Student Registered with Specified Id"));

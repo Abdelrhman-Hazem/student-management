@@ -6,6 +6,7 @@ import com.bbyn.studentmanagement.mapper.CourseMapper;
 import com.bbyn.studentmanagement.model.dto.CourseDto;
 import com.bbyn.studentmanagement.model.dto.CourseDetailsDto;
 import com.bbyn.studentmanagement.model.entity.Course;
+import com.bbyn.studentmanagement.model.request.CourseCreationRequest;
 import com.bbyn.studentmanagement.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,11 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
 
-    public CourseDto createCourse(CourseDto courseDto) {
-        if (courseRepository.existsByName(courseDto.getName())) {
-            throw new DuplicateCourseNameException("Course name '" + courseDto.getName() + "' is already taken.");
+    public CourseDto createCourse(CourseCreationRequest courseCreationRequest) {
+        if (courseRepository.existsByName(courseCreationRequest.getName())) {
+            throw new DuplicateCourseNameException("Course name '" + courseCreationRequest.getName() + "' is already reserved.");
         }
-        Course course = courseMapper.courseDtoToCourse(courseDto);
+        Course course = courseMapper.courseCreationRequestToCourse(courseCreationRequest);
         courseRepository.save(course);
 
         return courseMapper.courseToCourseDto(course);
@@ -41,7 +42,7 @@ public class CourseService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseDoesNotExistException("No Course Created with Specified Id"));
 
-        return courseMapper.courseToCourseWithStudentsDto(course);
+        return courseMapper.courseToCourseDetailsDto(course);
     }
 }
 
