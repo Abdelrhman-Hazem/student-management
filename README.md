@@ -15,11 +15,11 @@ modifications and adjustments. For reference find the ChatGPT chat below
 [here](https://chatgpt.com/share/66fc4bce-1924-800d-90cd-1eeb944bd692).
 
 ## Business Description
-Building a student management system where users can login, view courses and
+Building a student management system where users can log in, view courses and
 manage the course registration.
 
 The system provides the following features:
-- Student account can be created, student can login using account. 
+- Student account can be created, student can log in using account. 
 - Courses can be created specifying a schedule for the course. 
 - Course list can be retrieved, also a single course details including schedule and student list can be viewed
 - Student can enroll to a course, withdraw from a course, and view enrolled courses

@@ -42,7 +42,7 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}/pdf")
-    public ResponseEntity<byte[]> getCoursePdfById(@PathVariable Long courseId) throws Exception {
+    public ResponseEntity<byte[]> getCoursePdfById(@PathVariable Long courseId) {
         CourseDetailsDto courseDetails = courseService.getCourseById(courseId);
         byte[] pdfBytes = PdfGenerator.generateCoursePdf(courseDetails);
 
