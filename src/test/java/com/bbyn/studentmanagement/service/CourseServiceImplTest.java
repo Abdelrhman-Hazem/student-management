@@ -10,6 +10,7 @@ import com.bbyn.studentmanagement.model.dto.CourseDto;
 import com.bbyn.studentmanagement.model.entity.Course;
 import com.bbyn.studentmanagement.model.request.CourseCreationRequest;
 import com.bbyn.studentmanagement.repository.CourseRepository;
+import com.bbyn.studentmanagement.service.impl.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,13 +18,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CourseServiceTest {
+public class CourseServiceImplTest {
 
     @Mock
     private CourseRepository courseRepository;
@@ -32,7 +34,7 @@ public class CourseServiceTest {
     private CourseMapper courseMapper;
 
     @InjectMocks
-    private CourseService courseService;
+    private CourseServiceImpl courseService;
 
     @Test
     public void testCreateCourse_WhenCourseNameExists_ShouldThrowDuplicateCourseNameException() {
@@ -97,7 +99,7 @@ public class CourseServiceTest {
     @Test
     public void testGetAllCourses_WhenNoCoursesExist_ShouldReturnEmptyList() {
         // Arrange
-        when(courseRepository.findAll()).thenReturn(Arrays.asList());
+        when(courseRepository.findAll()).thenReturn(Collections.emptyList());
 
         // Act
         List<CourseDto> result = courseService.getAllCourses();

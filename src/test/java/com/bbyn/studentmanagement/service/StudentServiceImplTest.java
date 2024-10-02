@@ -11,6 +11,7 @@ import com.bbyn.studentmanagement.model.entity.Course;
 import com.bbyn.studentmanagement.model.entity.Student;
 import com.bbyn.studentmanagement.repository.CourseRepository;
 import com.bbyn.studentmanagement.repository.StudentRepository;
+import com.bbyn.studentmanagement.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +24,7 @@ import java.util.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class StudentServiceTest {
+public class StudentServiceImplTest {
 
     @Mock
     private StudentRepository studentRepository;
@@ -41,7 +42,7 @@ public class StudentServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private StudentService studentService;
+    private StudentServiceImpl studentService;
 
 
     // Test for registerStudent method
