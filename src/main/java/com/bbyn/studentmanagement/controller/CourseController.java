@@ -1,6 +1,5 @@
 package com.bbyn.studentmanagement.controller;
 
-import com.bbyn.studentmanagement.mapper.CourseMapper;
 import com.bbyn.studentmanagement.model.dto.CourseDetailsDto;
 import com.bbyn.studentmanagement.model.dto.CourseDto;
 import com.bbyn.studentmanagement.model.request.CourseCreationRequest;
@@ -21,7 +20,6 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CourseController {
     private final CourseService courseService;
-    private final CourseMapper courseMapper;
 
     @PostMapping
     public ResponseEntity<CourseDto> createCourse(@RequestBody @Valid CourseCreationRequest courseCreationRequest) {
